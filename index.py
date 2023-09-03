@@ -8,27 +8,27 @@ def getDataOfColumnsCsv(df,column):
     for i in range(len(df)):
         aux = df[i]
         lista.append(aux[column])
-    
-    return np.asarray(lista)
+    lista = np.asarray(lista)
+    return lista.reshape(-1,1)
 
-df = pd.read_csv('XOR_tst.csv',header=0)
+df = pd.read_csv('XOR_trn.csv',header=0)
 test = df.values
 aux = []
 x1 = getDataOfColumnsCsv(test,0)
 x2 = getDataOfColumnsCsv(test,1)
 Y = getDataOfColumnsCsv(test,2)
-for i in range(len(Y)):
-    p = int(Y[i])
-    aux.append(p)
+# for i in range(len(Y)):
+#     p = int(Y[i])
+#     aux.append(p)
 
-Y = np.array(aux)
+# Y = np.array(aux)
 
-X = np.concatenate((x1.reshape(-1,1).T,x2.reshape(-1,1).T),axis=0)
+X = np.concatenate((x1.T,x2.T),axis=0)
 Y = Y.reshape(1,-1)
 
 model = ps.perceptronSimple(2, 0.5)
 model.fit(X, Y,100)
-print(model.predict(X))
+# print(model.predict(X))
 
 # dibujo
 p = X.shape[1]
